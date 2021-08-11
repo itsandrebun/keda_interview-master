@@ -8,7 +8,7 @@ use JWTAuth;
 use Exception;
 use Tymon\JWTAuth\Http\Middleware\BaseMiddleware;
 
-class ValidateToken
+class ValidateLoggedInUser
 {
     /**
      * Handle an incoming request.

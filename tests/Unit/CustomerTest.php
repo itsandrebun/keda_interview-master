@@ -17,6 +17,7 @@ class CustomerTest extends TestCase
      */
 
     protected $user_id = 3;
+    protected $another_user_id = 2;
     protected $multiple_customer_ids = [4,1];
     
     public function test_get_customer()
@@ -29,6 +30,18 @@ class CustomerTest extends TestCase
         ])->post('/api/customer/get', ['user_id' => $this->user_id]);
 
         $response->assertSuccessful();
+    }
+    
+    public function test_customer_get_customer()
+    {
+        $user = User::where('user_id',$this->user_id)->first();
+        $token = JWTAuth::fromUser($user);
+        JWTAuth::setToken($token);
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer '.$token,
+        ])->post('/api/customer/get', ['user_id' => $this->another_user_id]);
+
+        $response->assertStatus(401);
     }
 
     public function test_get_customer_by_id()
